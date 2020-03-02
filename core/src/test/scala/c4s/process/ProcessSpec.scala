@@ -1,14 +1,11 @@
 package c4s.process
 
-import cats.implicits._
 import cats.effect._
-
-import scala.concurrent.ExecutionContext
-
-import org.specs2.mutable.Specification
-
+import cats.implicits._
 import io.chrisdavenport.log4cats.testing.TestingLogger
 import io.chrisdavenport.log4cats.testing.TestingLogger._ 
+import org.specs2.mutable.Specification
+import scala.concurrent.ExecutionContext
 
 import java.nio.file._
 
