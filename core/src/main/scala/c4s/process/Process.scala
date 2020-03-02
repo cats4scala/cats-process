@@ -1,9 +1,8 @@
 package c4s.process
 
-import cats.implicits._
 import cats.effect._
+import cats.implicits._
 import fs2.{Stream, text}
-
 import io.chrisdavenport.log4cats.Logger
 
 import java.io.InputStream
