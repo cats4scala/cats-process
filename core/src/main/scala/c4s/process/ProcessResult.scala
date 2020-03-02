@@ -2,7 +2,6 @@ package c4s.process
 
 import cats.effect.Sync
 import cats.implicits._
-
 import fs2.{Stream, text}
 
 final case class ProcessResult[F[_]](
