@@ -1,4 +1,6 @@
-# cats-process - Functional command and process [![Build Status](https://travis-ci.com/cats4scala/cats-process.svg?branch=master)](https://travis-ci.com/cats4scala/cats-process) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/cats4scala/cats-process_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/c4s/cats-process_2.12) ![Code of Consuct](https://img.shields.io/badge/Code%20of%20Conduct-Scala-blue.svg)
+[![Build Status][travisci-status]][travisci] [![Maven Central](https://maven-badges.herokuapp.com/maven-central/cats4scala/cats-process_2.13/badge.svg)](https://maven-badges.herokuapp.com/maven-central/c4s/cats-process_2.12) ![Code of Consuct](https://img.shields.io/badge/Code%20of%20Conduct-Scala-blue.svg) [![Mergify Status][mergify-status]][mergify]
+
+# cats-process - Functional command and process
 
 [Head on over to the microsite](https://cats4scala.github.io/cats-process)
 
@@ -12,3 +14,7 @@ libraryDependencies ++= Seq(
   "c4s" %% "cats-process" % "<version>"
 )
 ```
+[travisci]: https://travis-ci.com/cats4scala/cats-process
+[travisci-status]: https://travis-ci.com/cats4scala/cats-process.svg?branch=master
+[mergify]: https://mergify.io
+[mergify-status]: https://img.shields.io/endpoint.svg?url=https://gh.mergify.io/badges/cats4scala/cats-process&style=flat
