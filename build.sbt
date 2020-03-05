@@ -1,9 +1,9 @@
-import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
+val scalaV = "2.13.1"
 
 val catsV = "2.1.1"
-val catsEffectV = "2.1.1"
+val catsEffectV = "2.1.2"
 val fs2V = "2.2.2"
-val specs2V = "4.8.3"
+val specs2V = "4.9.2"
 val log4catsV = "1.0.1"
 
 val kindProjectorV = "0.11.0"
@@ -13,12 +13,16 @@ val betterMonadicForV = "0.3.1"
 lazy val `cats-process` = project.in(file("."))
   .disablePlugins(MimaPlugin)
   .enablePlugins(NoPublishPlugin)
+  .settings(
+    scalaVersion := scalaV
+  )
   .aggregate(core)
 
 lazy val core = project.in(file("core"))
   .settings(commonSettings)
   .settings(
-    name := "cats-process"
+    name := "cats-process",
+    scalaVersion := scalaV
   )
 
 lazy val site = project.in(file("site"))
@@ -37,7 +41,7 @@ lazy val site = project.in(file("site"))
       micrositeGithubOwner := "cats4scala",
       micrositeGithubRepo := "cats-process",
       micrositeBaseUrl := "/cats-process",
-      micrositeDocumentationUrl := "https://www.javadoc.io/doc/c4s/cats-process_2.12",
+      micrositeDocumentationUrl := "https://www.javadoc.io/doc/c4s/cats-process_2.13",
       micrositeFooterText := None,
       micrositeHighlightTheme := "atom-one-light",
       micrositePalette := Map(
@@ -70,25 +74,20 @@ lazy val site = project.in(file("site"))
 
 // General Settings
 lazy val commonSettings = Seq(
-  scalaVersion := "2.13.1",
-  crossScalaVersions := Seq(scalaVersion.value),
+  scalaVersion := scalaV,
+  crossScalaVersions := Seq(scalaV),
 
   addCompilerPlugin("org.typelevel" %% "kind-projector" % kindProjectorV cross CrossVersion.full),
   addCompilerPlugin("com.olegpy"    %% "better-monadic-for" % betterMonadicForV),
 
   libraryDependencies ++= Seq(
     "org.typelevel"               %% "cats-core"                  % catsV,
-    "org.typelevel"               %% "alleycats-core"             % catsV,
     "org.typelevel"               %% "cats-effect"                % catsEffectV,
     "co.fs2"                      %% "fs2-core"                   % fs2V,
-    "co.fs2"                      %% "fs2-io"                     % fs2V,
-
     "io.chrisdavenport"           %% "log4cats-core"              % log4catsV,
     "io.chrisdavenport"           %% "log4cats-slf4j"             % log4catsV,
     "io.chrisdavenport"           %% "log4cats-testing"           % log4catsV     % Test,
-
     "org.specs2"                  %% "specs2-core"                % specs2V       % Test,
-    "org.specs2"                  %% "specs2-scalacheck"          % specs2V       % Test
   )
 )
 
