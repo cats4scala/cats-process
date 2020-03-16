@@ -96,7 +96,7 @@ inThisBuild(List(
   organization := "c4s",
   developers := List(
     Developer("JesusMtnez", "Jesús Martínez", "jesusmartinez93@gmail.com", url("https://github.com/JesusMtnez")),
-    Developer("pirita", "Ignacio Navarro", "FIXME@FIXME.com", url("https://github.com/pirita")),
+    Developer("pirita", "Ignacio Navarro Martín", "ignacio.navarro.martin@gmail.com", url("https://github.com/pirita")),
     Developer("BeniVF", "Benigno Villa Fernández", "beni.villa@gmail.com", url("https://github.com/BeniVF"))
   ),
 
