@@ -3,7 +3,7 @@ package c4s.process
 import cats.effect._
 import cats.implicits._
 import io.chrisdavenport.log4cats.testing.TestingLogger
-import io.chrisdavenport.log4cats.testing.TestingLogger._ 
+import io.chrisdavenport.log4cats.testing.TestingLogger._
 import org.specs2.mutable.Specification
 import scala.concurrent.ExecutionContext
 
@@ -44,7 +44,7 @@ class ProcessSpec extends Specification {
           result <- shell.withLogger(logger).run("ls -la")
           output <- ProcessResult.mkString(result.output)
           log <- logger.logged
-        } yield log.collect{ case INFO(message, _) => message } must contain(output)
+        } yield log.collect { case INFO(message, _) => message } must contain(output)
       }.unsafeRunSync()
     }
 
@@ -57,7 +57,7 @@ class ProcessSpec extends Specification {
             .run("ls foo")
           error <- ProcessResult.mkString(result.error)
           log <- logger.logged
-        } yield log.collect{case ERROR(message, _) => message} must contain (error)
+        } yield log.collect { case ERROR(message, _) => message } must contain(error)
       }.unsafeRunSync()
     }
   }
@@ -67,8 +67,8 @@ class ProcessSpec extends Specification {
       .use(x => f(Process.impl[IO](x)))
 
   def createTmpDirectory[F[_]: Sync]: Resource[F, Path] =
-    Resource.make(Sync[F].delay(Files.createTempDirectory("tmp")))(
-      path => Sync[F].delay(scala.reflect.io.Directory(path.toFile()).deleteRecursively()).void
+    Resource.make(Sync[F].delay(Files.createTempDirectory("tmp")))(path =>
+      Sync[F].delay(scala.reflect.io.Directory(path.toFile()).deleteRecursively()).void
     )
 
 }

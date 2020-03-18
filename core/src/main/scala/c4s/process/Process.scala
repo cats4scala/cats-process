@@ -2,12 +2,11 @@ package c4s.process
 
 import cats.effect._
 import cats.implicits._
-import fs2.{Stream, text}
+import fs2.{text, Stream}
 import io.chrisdavenport.log4cats.Logger
 
 import java.io.InputStream
 import java.nio.file.Path
-
 
 trait Process[F[_]] {
   def run(command: String): F[ProcessResult[F]]
@@ -77,9 +76,7 @@ object Process {
             path.fold(
               ScalaProcess(command).run(p)
             )(path => ScalaProcess(command, path.toFile()).run(p))
-          })(
-            p => blocker.blockOn(Sync[F].delay(p.exitValue()))
-          )(p => Sync[F].delay(p.destroy()))
+          })(p => blocker.blockOn(Sync[F].delay(p.exitValue())))(p => Sync[F].delay(p.destroy()))
           output <- Sync[F].delay(outputRef.get())
           error <- Sync[F].delay(errorRef.get())
         } yield ProcessResult(exitValue, output, error)
