@@ -19,7 +19,6 @@ libraryDependencies ++= Seq(
   "c4s" %% "cats-process" % "<version>"
 )
 ```
-[travisci]: https://travis-ci.com/cats4scala/cats-process
-[travisci-status]: https://travis-ci.com/cats4scala/cats-process.svg?branch=master
+
 [mergify]: https://mergify.io
 [mergify-status]: https://img.shields.io/endpoint.svg?url=https://gh.mergify.io/badges/cats4scala/cats-process&style=flat
