@@ -17,9 +17,14 @@ jobs:
       - uses: olafurpg/setup-scala@v5
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - name: Check sbt
+      - name: Cache SBT
+        uses: actions/cache@v1
+        with:
+          path: ~/.sbt
+          key: sbt-scalafmt-${{ hashFiles('**/project/plugins.sbt') }}
+      - name: Check sbt files
         run: sbt scalafmtSbtCheck
-      - name: Check scala
+      - name: Check scala files
         run: sbt scalafmtCheckAll
 
   validate:
