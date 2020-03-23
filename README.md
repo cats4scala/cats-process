@@ -1,4 +1,4 @@
-[![Build Status][travisci-status]][travisci]
+[![GitHub Actions](https://github.com/cats4scala/cats-process/workflows/CI/badge.svg)](https://github.com/cats4scala/cats-process/actions)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/cats4scala/cats-process_2.13/badge.svg)](https://maven-badges.herokuapp.com/maven-central/c4s/cats-process_2.12)
 ![Code of Consuct](https://img.shields.io/badge/Code%20of%20Conduct-Scala-blue.svg)
 [![Join the chat at https://gitter.im/cats4scala/cats-process](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cats4scala/cats-process?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -19,7 +19,6 @@ libraryDependencies ++= Seq(
   "c4s" %% "cats-process" % "<version>"
 )
 ```
-[travisci]: https://travis-ci.com/cats4scala/cats-process
-[travisci-status]: https://travis-ci.com/cats4scala/cats-process.svg?branch=master
+
 [mergify]: https://mergify.io
 [mergify-status]: https://img.shields.io/endpoint.svg?url=https://gh.mergify.io/badges/cats4scala/cats-process&style=flat
