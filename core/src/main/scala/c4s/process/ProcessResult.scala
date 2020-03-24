@@ -5,9 +5,9 @@ import cats.implicits._
 import fs2.{text, Stream}
 
 final case class ProcessResult[F[_]](
-  exitCode: ExitCode,
-  output: Stream[F, Byte],
-  error: Stream[F, Byte]
+    exitCode: ExitCode,
+    output: Stream[F, Byte],
+    error: Stream[F, Byte]
 )
 
 object ProcessResult {
