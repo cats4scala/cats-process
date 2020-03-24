@@ -85,17 +85,14 @@ object Process {
           ref: AtomicReference[Stream[F, Byte]],
           is: InputStream
       ): Unit =
-        try {
-          import scala.collection.immutable.LazyList
-          val output = LazyList
-            .continually(is.read)
-            .takeWhile(_ != -1)
-            .map(_.toByte)
-            .iterator
-            .toArray
-          ref.set(Stream.fromIterator(output.iterator))
-        } finally {
-          is.close()
-        }
+        Blocker[IO].use { b =>
+          import fs2.io.readInputStream
+          import scala.concurrent.ExecutionContext.global
+          implicit val contextShift = IO.contextShift(global)
+          for {
+            bytes <- readInputStream[IO](is.pure[IO], 1024, b).compile.toVector
+            _ <- IO(ref.set(Stream.fromIterator(bytes.iterator)))
+          } yield ()
+        }.unsafeRunSync
     }
 }
