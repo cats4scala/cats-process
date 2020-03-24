@@ -79,7 +79,7 @@ object Process {
           })(p => blocker.blockOn(Sync[F].delay(p.exitValue())))(p => Sync[F].delay(p.destroy()))
           output <- Sync[F].delay(outputRef.get())
           error <- Sync[F].delay(errorRef.get())
-        } yield ProcessResult(exitValue, output, error)
+        } yield ProcessResult(ExitCode(exitValue), output, error)
 
       private[this] def redirectInputStream(
           ref: AtomicReference[Stream[F, Byte]],

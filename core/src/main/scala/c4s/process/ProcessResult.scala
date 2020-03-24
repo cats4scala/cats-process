@@ -1,13 +1,13 @@
 package c4s.process
 
-import cats.effect.Sync
+import cats.effect._
 import cats.implicits._
 import fs2.{text, Stream}
 
 final case class ProcessResult[F[_]](
-    exitCode: Int,
-    output: Stream[F, Byte],
-    error: Stream[F, Byte]
+  exitCode: ExitCode,
+  output: Stream[F, Byte],
+  error: Stream[F, Byte]
 )
 
 object ProcessResult {
