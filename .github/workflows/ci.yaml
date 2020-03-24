@@ -48,6 +48,6 @@ jobs:
           path: ~/.sbt
           key: sbt-${{ hashFiles('**/build.sbt') }}
       - name: Compile
-        run: sbt clean compile test:compile
+        run: sbt clean +compile +test:compile
       - name: Test
-        run: sbt test
+        run: sbt +test
