@@ -17,7 +17,7 @@ class ProcessSpec extends Specification {
 
     "run commands" >> {
       withProcess {
-        _.run("ls -la").map(_.exitCode must ===(0))
+        _.run("ls -la").map(_.exitCode must ===(ExitCode.Success))
       }.unsafeRunSync()
     }
 
@@ -29,7 +29,7 @@ class ProcessSpec extends Specification {
             result <- shell.run("ls", path)
             output <- ProcessResult.mkString(result.output)
             result <- IO {
-              result.exitCode must ===(0)
+              result.exitCode must ===(ExitCode.Success)
               output must contain(s"foo")
             }
           } yield result
