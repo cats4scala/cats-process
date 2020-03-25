@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: olafurpg/setup-scala@v5
+      - uses: olafurpg/setup-scala@v7
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: Cache SBT
@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: olafurpg/setup-scala@v5
+      - uses: olafurpg/setup-scala@v7
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: Cache Coursier
