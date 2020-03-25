@@ -3,9 +3,9 @@ pull_request_rules:
   - name: Merge scala-steward's PRs - patch
     conditions:
       - author=scala-steward
+      - status-success=format
+      - status-success=compile and test
       - body~=labels:.*semver-patch
-      - status-success=Check scalafmt
-      - status-success=Compile & Test
     actions:
       merge:
         method: squash
@@ -13,9 +13,9 @@ pull_request_rules:
   - name: Merge scala-steward's PRs - minor
     conditions:
       - author=scala-steward
+      - status-success=format
+      - status-success=compile and test
       - body~=labels:*semver-minor
-      - status-success=Check scalafmt
-      - status-success=Compile & Test
       - "#approved-reviews-by>=1"
     actions:
       merge:
