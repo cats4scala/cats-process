@@ -1,16 +1,18 @@
 ---
 name: CI
 
-on: [pull_request, push]
+on:
+  push:
+    branches: master
+  pull_request:
 
 env:
-  CI: true
   JAVA_VERSION: adopt@v1.11
 
 jobs:
 
-  formatting:
-    name: Check scalafmt
+  format:
+    name: format
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -28,7 +30,7 @@ jobs:
         run: sbt scalafmtCheckAll
 
   validate:
-    name: Compile & Test
+    name: compile and test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -39,7 +41,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.cache/coursier
-          key: sbt-coursier-cache
+          key: coursier-${{ hashFiles('**/build.sbt') }}
       - name: Cache SBT
         uses: actions/cache@v1
         with:
