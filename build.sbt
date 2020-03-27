@@ -30,58 +30,21 @@ lazy val core = project
 lazy val site = project
   .in(file("site"))
   .disablePlugins(MimaPlugin)
-  .enablePlugins(MicrositesPlugin)
   .enablePlugins(MdocPlugin)
+  .enablePlugins(ParadoxSitePlugin)
+  .enablePlugins(ParadoxMaterialThemePlugin)
+  .enablePlugins(PreprocessPlugin)
   .enablePlugins(NoPublishPlugin)
-  .settings(commonSettings)
+  .settings(
+    scalaVersion := scalaV,
+    makeSite := makeSite.dependsOn(mdoc.toTask("")).value,
+    mdocIn := baseDirectory.value / "docs",
+    sourceDirectory in (Compile, paradox) := mdocOut.value,
+    Compile / paradoxMaterialTheme ~= {
+      _.withRepository(uri("https://github.com/cats4scala/cats-process"))
+    }
+  )
   .dependsOn(core)
-  .settings {
-    import microsites._
-    Seq(
-      micrositeName := "cats-process",
-      micrositeDescription := "Functional command and process",
-      micrositeAuthor := "cats4scala",
-      micrositeGithubOwner := "cats4scala",
-      micrositeGithubRepo := "cats-process",
-      micrositeBaseUrl := "/cats-process",
-      micrositeDocumentationUrl := "https://www.javadoc.io/doc/c4s/cats-process_2.13",
-      micrositeFooterText := None,
-      micrositeHighlightTheme := "atom-one-light",
-      micrositePalette := Map(
-        "brand-primary" -> "#3e5b95",
-        "brand-secondary" -> "#294066",
-        "brand-tertiary" -> "#2d5799",
-        "gray-dark" -> "#49494B",
-        "gray" -> "#7B7B7E",
-        "gray-light" -> "#E5E5E6",
-        "gray-lighter" -> "#F4F3F4",
-        "white-color" -> "#FFFFFF"
-      ),
-      micrositeCompilingDocsTool := WithMdoc,
-      scalacOptions in Tut --= Seq(
-        "-Xfatal-warnings",
-        "-Ywarn-unused-import",
-        "-Ywarn-numeric-widen",
-        "-Ywarn-dead-code",
-        "-Ywarn-unused:imports",
-        "-Xlint:-missing-interpolator,_"
-      ),
-      micrositePushSiteWith := GitHub4s,
-      micrositeGithubToken := sys.env.get("GITHUB_TOKEN"),
-      micrositeExtraMdFiles := Map(
-        file("CODE_OF_CONDUCT.md") -> ExtraMdFileConfig(
-          "code-of-conduct.md",
-          "page",
-          Map("title" -> "code of conduct", "section" -> "code of conduct", "position" -> "100")
-        ),
-        file("LICENSE") -> ExtraMdFileConfig(
-          "license.md",
-          "page",
-          Map("title" -> "license", "section" -> "license", "position" -> "101")
-        )
-      )
-    )
-  }
 
 // General Settings
 lazy val commonSettings = Seq(
