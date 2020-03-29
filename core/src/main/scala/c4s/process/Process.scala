@@ -2,7 +2,6 @@ package c4s.process
 
 import cats.effect._
 import cats.implicits._
-import io.chrisdavenport.log4cats.Logger
 
 import java.io.InputStream
 import java.nio.file.Path
@@ -14,16 +13,14 @@ trait Process[F[_]] {
 
 object Process {
   import scala.sys.process.{Process => ScalaProcess, _}
-  def apply[F[_]](implicit process: Process[F]): Process[F] = process
+  final def apply[F[_]](implicit process: Process[F]): Process[F] = process
 
-  def run[F[_]: Process](command: String): F[ProcessResult[F]] = Process[F].run(command, None)
-  def runInPath[F[_]: Process](command: String, path: Path): F[ProcessResult[F]] = Process[F].run(command, path.some)
+  final def run[F[_]: Process](command: String): F[ProcessResult[F]] = Process[F].run(command, None)
 
-  implicit class ProcessOps[F[_]: Sync](process: Process[F]) {
-    def withLogger(logger: Logger[F]): Process[F] = new LoggerProcess(process, logger)
-  }
+  final def runInPath[F[_]: Process](command: String, path: Path): F[ProcessResult[F]] =
+    Process[F].run(command, path.some)
 
-  def impl[F[_]: Sync: Bracket[?[_], Throwable]: ContextShift](
+  final def impl[F[_]: Sync: Bracket[?[_], Throwable]: ContextShift](
       blocker: Blocker
   ): Process[F] = new ProcessImpl[F](blocker)
 
@@ -32,7 +29,7 @@ object Process {
     import java.util.concurrent.atomic.AtomicReference
     val atomicReference = Sync[F].delay(new AtomicReference[Stream[F, Byte]])
 
-    def run(command: String, path: Option[Path]): F[ProcessResult[F]] =
+    final def run(command: String, path: Option[Path]): F[ProcessResult[F]] =
       for {
         outputRef <- atomicReference
         errorRef <- atomicReference

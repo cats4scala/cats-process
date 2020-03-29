@@ -7,11 +7,11 @@ import org.specs2.mutable.Specification
 import scala.concurrent.ExecutionContext
 
 class LoggerProcessSpec extends Specification {
+  import c4s.process.syntax._
   implicit val executionContext = ExecutionContext.global
   implicit val contextShift: ContextShift[IO] = IO.contextShift(executionContext)
 
   "Process should be able to" >> {
-    import c4s.process.syntax._
 
     "to log what we are doing and still getting the command when it is succeeded" >> {
       withProcess { (shell, logger) =>
