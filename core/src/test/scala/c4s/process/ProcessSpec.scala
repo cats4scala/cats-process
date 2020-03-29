@@ -2,8 +2,6 @@ package c4s.process
 
 import cats.effect._
 import cats.implicits._
-import io.chrisdavenport.log4cats.testing.TestingLogger
-import io.chrisdavenport.log4cats.testing.TestingLogger._
 import org.specs2.mutable.Specification
 import scala.concurrent.ExecutionContext
 
@@ -14,22 +12,20 @@ class ProcessSpec extends Specification {
   implicit val contextShift: ContextShift[IO] = IO.contextShift(executionContext)
 
   "Process should be able to" >> {
+    import c4s.process.syntax._
 
     "run commands" >> {
-      withProcess {
-        _.run("ls -la").map(_.exitCode must ===(ExitCode.Success))
-      }.unsafeRunSync()
+      withProcess(implicit shell => Process.run("ls -la").map(_.exitCode must ===(ExitCode.Success)))
+        .unsafeRunSync()
     }
 
-    "get the outputs and execute commands in different folder" >> {
-      withProcess { shell =>
+    "get the output as string and execute commands in different folder" >> {
+      withProcess { implicit shell =>
         createTmpDirectory[IO].use { path =>
           for {
-            _ <- shell.run("mkdir foo", path)
-            result <- shell.run("ls", path)
-            output <- ProcessResult.mkString(result.output)
+            _ <- Process.runInPath("mkdir foo", path)
+            output <- Process.runInPath("ls", path).string
             result <- IO {
-              result.exitCode must ===(ExitCode.Success)
               output must contain(s"foo")
             }
           } yield result
@@ -37,29 +33,21 @@ class ProcessSpec extends Specification {
       }.unsafeRunSync()
     }
 
-    "to log what we are doing and still getting the command when it is succeeded" >> {
-      withProcess { shell =>
-        val logger = TestingLogger.impl[IO]()
-        for {
-          result <- shell.withLogger(logger).run("ls -la")
-          output <- ProcessResult.mkString(result.output)
-          log <- logger.logged
-        } yield log.collect { case INFO(message, _) => message } must contain(output)
+    "get lines and execute commands in different folder" >> {
+      withProcess { implicit shell =>
+        createTmpDirectory[IO].use { path =>
+          for {
+            _ <- Process.runInPath("mkdir foo", path)
+            _ <- Process.runInPath("mkdir bar", path)
+            output <- Process.runInPath("ls", path).lines
+            result <- IO {
+              output must beEqualTo(List("bar", "foo"))
+            }
+          } yield result
+        }
       }.unsafeRunSync()
     }
 
-    "to log what we are doing and still getting the command when it fails" >> {
-      withProcess { shell =>
-        val logger = TestingLogger.impl[IO]()
-        for {
-          result <- shell
-            .withLogger(logger)
-            .run("ls foo")
-          error <- ProcessResult.mkString(result.error)
-          log <- logger.logged
-        } yield log.collect { case ERROR(message, _) => message } must contain(error)
-      }.unsafeRunSync()
-    }
   }
 
   def withProcess[R](f: Process[IO] => IO[R]): IO[R] =
