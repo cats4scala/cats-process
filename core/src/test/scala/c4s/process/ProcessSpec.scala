@@ -19,6 +19,16 @@ class ProcessSpec extends Specification {
         .unsafeRunSync()
     }
 
+    "strict run commands" >> {
+      withProcess(implicit shell => Process.run("ls -la").strict.map(_._1 must ===(ExitCode.Success)))
+        .unsafeRunSync()
+    }
+
+    "strict run commands when it is failing" >> {
+      withProcess(implicit shell => Process.run("ls foo").strict)
+        .unsafeRunSync() must throwA[ProcessFailure[IO]]
+    }
+
     "get the output as string and execute commands in different folder" >> {
       withProcess { implicit shell =>
         createTmpDirectory[IO].use { path =>
