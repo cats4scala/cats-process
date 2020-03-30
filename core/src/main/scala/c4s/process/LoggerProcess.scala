@@ -22,12 +22,12 @@ private[process] final class LoggerProcess[F[_]: Sync](process: Process[F], logg
       _ <- if (output.nonEmpty)
         logger.info(output)
       else
-        Sync[F].pure(())
+        Sync[F].unit
       error <- result.error.asString
       _ <- if (error.nonEmpty)
         logger.error(error)
       else
-        Sync[F].pure(())
+        Sync[F].unit
     } yield result.copy(
       output = Stream(output).through(text.utf8Encode),
       error = Stream(error).through(text.utf8Encode)
