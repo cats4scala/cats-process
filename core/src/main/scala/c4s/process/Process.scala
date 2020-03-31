@@ -54,7 +54,7 @@ object Process {
       try {
         val queue = scala.collection.mutable.Queue.empty[Byte]
         var n = is.read()
-        while(n != -1) {
+        while (n != -1) {
           queue.enqueue(n.toByte)
           n = is.read()
         }
