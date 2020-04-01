@@ -1,11 +1,16 @@
 # cats-process
 
-Functional command and process
+`cats-process` is a library for purely functional command and process execution in the Scala language. It is available for Scala 2.12 and Scala 2.13. `cats-process` is built upon two major functional libraries for Scala, [`cats`][cats], and [`cats-effect`][cats-effect].
 
-## Quick Start
+## Getting started
 
-To use cats-process in an existing SBT project with Scala 2.13, add the following dependencies to your `build.sbt` depending on your needs:
+To start using `cats-process`, add the following dependencies to your `build.sbt`:
 
-```scala
-libraryDependencies ++= Seq("c4s" %% "cats-process" % "0.0.1")
-```
+@@dependency[sbt,Maven,Gradle] {
+  group="c4s"
+  artifact="cats-process_$scala.binary.version$"
+  version="$project.version$"
+}
+
+[cats]: https://typelevel.org/cats/
+[cats-effect]: https://typelevel.org/cats-effect/
