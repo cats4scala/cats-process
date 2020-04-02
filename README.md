@@ -1,5 +1,5 @@
 [![GitHub Actions](https://github.com/cats4scala/cats-process/workflows/CI/badge.svg)](https://github.com/cats4scala/cats-process/actions)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cats4scala/cats-process_2.13/badge.svg)](https://maven-badges.herokuapp.com/maven-central/c4s/cats-process_2.12)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/cats4scala/cats-process_2.13/badge.svg)](https://maven-badges.herokuapp.com/maven-central/c4s/cats-process_2.13)
 ![Code of Consuct](https://img.shields.io/badge/Code%20of%20Conduct-Scala-blue.svg)
 [![Join the chat at https://gitter.im/cats4scala/cats-process](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cats4scala/cats-process?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Mergify Status][mergify-status]][mergify]
@@ -8,17 +8,6 @@
 # cats-process - Functional command and process
 
 [Head on over to the microsite](https://cats4scala.github.io/cats-process)
-
-## Quick Start
-
-To use cats-process in an existing SBT project with Scala 2.11 or a later version, add the following dependencies to your
-`build.sbt` depending on your needs:
-
-```scala
-libraryDependencies ++= Seq(
-  "c4s" %% "cats-process" % "<version>"
-)
-```
 
 [mergify]: https://mergify.io
 [mergify-status]: https://img.shields.io/endpoint.svg?url=https://gh.mergify.io/badges/cats4scala/cats-process&style=flat
