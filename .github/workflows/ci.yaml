@@ -12,13 +12,7 @@ env:
 jobs:
 
   microsite:
-    strategy:
-      fail-fast: false
-      matrix:
-        scala:
-          - 2.13.1
-          - 2.12.11
-    name: microsite ${{ matrix.scala }}
+    name: microsite
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -36,7 +30,7 @@ jobs:
           path: ~/.sbt
           key: sbt-microsite-${{ hashFiles('**/build.sbt') }}
       - name: Build microsite
-        run: sbt ++${{ matrix.scala }} site/makeSite
+        run: sbt site/makeSite
 
   format:
     name: format
