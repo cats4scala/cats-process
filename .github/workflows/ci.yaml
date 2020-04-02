@@ -12,7 +12,13 @@ env:
 jobs:
 
   microsite:
-    name: microsite
+    strategy:
+      fail-fast: false
+      matrix:
+        scala:
+          - 2.13.1
+          - 2.12.11
+    name: microsite ${{ matrix.scala }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -30,7 +36,7 @@ jobs:
           path: ~/.sbt
           key: sbt-microsite-${{ hashFiles('**/build.sbt') }}
       - name: Build microsite
-        run: sbt site/makeSite
+        run: sbt ++${{ matrix.scala }} site/makeSite
 
   format:
     name: format
@@ -51,7 +57,13 @@ jobs:
         run: sbt scalafmtCheckAll
 
   validate:
-    name: compile and test
+    strategy:
+      fail-fast: false
+      matrix:
+        scala:
+          - 2.13.1
+          - 2.12.11
+    name: compile and test ${{ matrix.scala }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -69,6 +81,6 @@ jobs:
           path: ~/.sbt
           key: sbt-${{ hashFiles('**/build.sbt') }}
       - name: Compile
-        run: sbt clean +compile +test:compile
+        run: sbt ++${{ matrix.scala }} clean compile test:compile
       - name: Test
-        run: sbt +test
+        run: sbt ++${{ matrix.scala }} test
