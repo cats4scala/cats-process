@@ -86,7 +86,7 @@ lazy val site = project
 // General Settings
 lazy val commonSettings = Seq(
   scalaVersion := scalaV,
-  crossScalaVersions := Seq(scalaV),
+  crossScalaVersions := Seq(scalaV, "2.12.11"),
   addCompilerPlugin("org.typelevel" %% "kind-projector"     % kindProjectorV cross CrossVersion.full),
   addCompilerPlugin("com.olegpy"    %% "better-monadic-for" % betterMonadicForV),
   libraryDependencies ++= Seq(

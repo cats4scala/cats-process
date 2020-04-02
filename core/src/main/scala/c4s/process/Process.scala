@@ -52,14 +52,13 @@ object Process {
         is: InputStream
     ): Unit =
       try {
-        import scala.collection.immutable.LazyList
-        val output = LazyList
-          .continually(is.read)
-          .takeWhile(_ != -1)
-          .map(_.toByte)
-          .iterator
-          .toArray
-        ref.set(Stream.fromIterator(output.iterator))
+        val queue = scala.collection.mutable.Queue.empty[Byte]
+        var n = is.read()
+        while (n != -1) {
+          queue.enqueue(n.toByte)
+          n = is.read()
+        }
+        ref.set(Stream.fromIterator(queue.iterator))
       } finally {
         is.close()
       }
