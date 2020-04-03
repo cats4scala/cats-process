@@ -40,6 +40,7 @@ jobs:
   publish-microsite:
     name: publish microsite
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v2
       - uses: olafurpg/setup-scala@v7
