@@ -37,6 +37,34 @@ jobs:
           PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
           PGP_SECRET: ${{ secrets.PGP_SECRET }}
 
+  gh-release:
+    name: Create Release ${{ github.ref }}
+    runs-on: ubuntu-latest
+    if: github.event_name == 'tags'
+    needs: release
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Get vars
+        id: vars
+        run: |
+          echo ::set-output name=tag::${GITHUB_REF/refs\/tags\//}
+          echo ::set-output name=date::$(date +%F)
+          echo ::set-output name=version::${GITHUB_REF/refs\/tags\/v/}
+      - name: Get date
+        id: date
+        run: echo ::set-output name=value::$(date +%F)
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.vars.outputs.tag }}
+          release_name: ${{ steps.vars.outputs.tag }}
+          body: Full changelog: https://github.com/cats4scala/cats-process/blob/master/CHANGELOG.md#${{ steps.vars.outputs.version }}---${{ steps.vars.outputs.date }}
+          draft: false
+          prerelease: false
+
   publish-microsite:
     name: publish microsite
     runs-on: ubuntu-latest
