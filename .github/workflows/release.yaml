@@ -2,8 +2,10 @@
 name: Release
 on:
   push:
-    branches: master
-    tags: '*'
+    branches:
+      - master
+      - series/*
+    tags: 'v*'
 
 env:
   JAVA_VERSION: adopt@v1.11
