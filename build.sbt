@@ -66,7 +66,7 @@ lazy val commonSettings = Seq(
 // General Settings
 inThisBuild(
   List(
-    organization := "c4s",
+    organization := "io.github.cats4scala",
     developers := List(
       Developer("JesusMtnez", "Jesús Martínez", "jesusmartinez93@gmail.com", url("https://github.com/JesusMtnez")),
       Developer(
