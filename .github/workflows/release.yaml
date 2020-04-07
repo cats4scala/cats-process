@@ -60,7 +60,7 @@ jobs:
           release_name: ${{ steps.vars.outputs.tag }}
           body: |
             Full changelog: https://github.com/cats4scala/cats-process/blob/master/CHANGELOG.md#${{ steps.vars.outputs.version }}---${{ steps.vars.outputs.date }}
-          draft: false
+          draft: true
           prerelease: false
 
   publish-microsite:
