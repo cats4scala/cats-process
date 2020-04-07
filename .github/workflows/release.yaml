@@ -31,7 +31,7 @@ jobs:
         with:
           path: ~/.sbt
           key: sbt-${{ hashFiles('**/build.sbt') }}
-      - name: Publish
+      - name: Release artifacts
         run: sbt ci-release
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
@@ -45,18 +45,13 @@ jobs:
     if: github.event_name == 'tags'
     needs: release
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Get vars
-        id: vars
+      - uses: actions/checkout@v2
+      - id: vars
         run: |
           echo ::set-output name=tag::${GITHUB_REF/refs\/tags\//}
           echo ::set-output name=date::$(date +%F)
           echo ::set-output name=version::${GITHUB_REF/refs\/tags\/v/}
-      - name: Get date
-        id: date
-        run: echo ::set-output name=value::$(date +%F)
-      - name: Create Release
+      - name: Create GH Release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
