@@ -78,3 +78,16 @@ jobs:
         run: sbt ++${{ matrix.scala }} clean compile test:compile
       - name: Test
         run: sbt ++${{ matrix.scala }} test
+
+  changelog:
+    name: changelog
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v1
+        with:
+          python-version: '3.x'
+      - name: Install python-kacl
+        run: pip install python-kacl
+      - name: Verify CHANGELOG.md
+        run: kacl-cli verify
