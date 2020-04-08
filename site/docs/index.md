@@ -6,6 +6,16 @@
 
 To start using `cats-process`, add the following dependencies to your `build.sbt`:
 
+#### Stable version
+
+@@dependency[sbt,Maven,Gradle] {
+  group="io.github.cats4scala"
+  artifact="cats-process_$scala.binary.version$"
+  version="$project.version.stable$"
+}
+
+#### Latest snapshot
+
 @@dependency[sbt,Maven,Gradle] {
   group="io.github.cats4scala"
   artifact="cats-process_$scala.binary.version$"
