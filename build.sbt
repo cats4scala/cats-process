@@ -3,7 +3,7 @@ val scalaV = "2.13.1"
 val catsV = "2.1.1"
 val catsEffectV = "2.1.2"
 val fs2V = "2.3.0"
-val specs2V = "4.9.2"
+val specs2V = "4.9.3"
 val log4catsV = "1.0.1"
 
 val kindProjectorV = "0.11.0"
