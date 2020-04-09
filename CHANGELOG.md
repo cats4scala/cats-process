@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Fixed
 - :rocket: GitHub Release job in release workflow
+- Maven badge now shows the latest stable release
 
 ## [0.0.1] - 2020-04-07
 ### Added
