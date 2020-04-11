@@ -9,6 +9,7 @@ import fs2.Stream
 
 trait Process[F[_]] {
   def run(command: String, path: Option[Path]): F[ProcessResult[F]]
+  def run(command: String, stream: Stream[F, Byte], path: Option[Path]): F[ProcessResult[F]]
 }
 
 object Process {
@@ -46,6 +47,8 @@ object Process {
         output <- Sync[F].delay(outputRef.get())
         error <- Sync[F].delay(errorRef.get())
       } yield ProcessResult(ExitCode(exitValue), output, error)
+
+    final def run(command: String, stream: Stream[F, Byte], path: Option[Path]): F[ProcessResult[F]] = ???
 
     private[this] def redirectInputStream(
         ref: AtomicReference[Stream[F, Byte]],

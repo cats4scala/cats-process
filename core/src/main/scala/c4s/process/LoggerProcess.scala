@@ -15,6 +15,8 @@ private[process] final class LoggerProcess[F[_]: Sync](process: Process[F], logg
       newResult <- logProcessResult(path, command, result)
     } yield newResult
 
+  final def run(command: String, stream: Stream[F, Byte], path: Option[Path]): F[ProcessResult[F]] = ???
+
   private def logProcessResult(path: Option[Path], command: String, result: ProcessResult[F]): F[ProcessResult[F]] =
     for {
       _ <- logger.info(s"[${result.exitCode}] ${path.fold("")(x => s"$x/")}$command")
