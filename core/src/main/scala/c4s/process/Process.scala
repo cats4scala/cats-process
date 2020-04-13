@@ -4,8 +4,6 @@ import cats.effect._
 import cats.implicits._
 import java.io.{InputStream, OutputStream}
 import java.nio.file.Path
-
-import cats.Bimonad
 import fs2.Stream
 import fs2.io.writeOutputStream
 
@@ -23,11 +21,11 @@ object Process {
   final def runInPath[F[_]: Process](command: String, path: Path): F[ProcessResult[F]] =
     Process[F].run(command, path.some)
 
-  final def impl[F[_]: Concurrent: Bracket[?[_], Throwable]: ContextShift: Bimonad](
+  final def impl[F[_]: Concurrent: Bracket[?[_], Throwable]: ContextShift: Extract](
       blocker: Blocker
   ): Process[F] = new ProcessImpl[F](blocker)
 
-  private[this] final class ProcessImpl[F[_]: Concurrent: Bracket[?[_], Throwable]: ContextShift: Bimonad](blocker: Blocker)
+  private[this] final class ProcessImpl[F[_]: Concurrent: Bracket[?[_], Throwable]: ContextShift: Extract](blocker: Blocker)
       extends Process[F] {
     import java.util.concurrent.atomic.AtomicReference
     val atomicReference = Sync[F].delay(new AtomicReference[Stream[F, Byte]])
@@ -39,8 +37,7 @@ object Process {
         fout = toOutputStream(stream)
         exitValue <- Bracket[F, Throwable].bracket(Sync[F].delay {
           val p = new ProcessIO(
-            fout andThen(Bimonad[F].extract),
-            //_ => (),
+            fout andThen(Extract[F].extract),
             redirectInputStream(outputRef, _),
             redirectInputStream(errorRef, _)
           )
