@@ -55,7 +55,7 @@ object Process {
         Resource.fromAutoCloseableBlocking(blocker)(Sync[F].delay {out})
           .use { outStream =>
             stream
-              .through(writeOutputStream[F](Concurrent[F].delay(outStream), blocker))
+              .through(writeOutputStream[F](Concurrent[F].delay(outStream), blocker, false))
               .compile
               .drain
           }
