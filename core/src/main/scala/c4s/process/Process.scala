@@ -31,7 +31,7 @@ object Process {
     import java.util.concurrent.atomic.AtomicReference
     val atomicReference = Sync[F].delay(new AtomicReference[Stream[F, Byte]])
 
-    override def run(command: String, stream: Option[Stream[F, Byte]], path: Option[Path]): F[ProcessResult[F]] =
+    override def run(command: String, input: Option[Stream[F, Byte]], path: Option[Path]): F[ProcessResult[F]] =
       for {
         outputRef <- atomicReference
         errorRef <- atomicReference
