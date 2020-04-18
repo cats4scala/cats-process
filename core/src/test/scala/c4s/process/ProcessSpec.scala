@@ -58,6 +58,15 @@ class ProcessSpec extends Specification {
       }.unsafeRunSync()
     }
 
+    "run command reading a stream from another command" >> {
+      withProcess{ implicit shell =>
+        for {
+          result <- Process.run("ls -las")
+          resultStream <- Process.run("wc", result.output)
+        } yield resultStream.exitCode == (ExitCode.Success)
+      }.unsafeRunSync()
+    }
+
   }
 
   def withProcess[R](f: Process[IO] => IO[R]): IO[R] =

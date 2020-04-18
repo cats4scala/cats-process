@@ -17,6 +17,8 @@ object Process {
 
   final def run[F[_]: Process](command: String): F[ProcessResult[F]] = Process[F].run(command, None, None)
 
+  final def run[F[_]: Process](command: String, stream: Stream[F, Byte]): F[ProcessResult[F]] = Process[F].run(command, Some(stream), None)
+
   final def runInPath[F[_]: Process](command: String, path: Path): F[ProcessResult[F]] =
     Process[F].run(command, None, path.some)
 
@@ -74,5 +76,6 @@ object Process {
       } finally {
         is.close()
       }
+
   }
 }
