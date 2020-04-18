@@ -35,7 +35,7 @@ object Process {
       for {
         outputRef <- atomicReference
         errorRef <- atomicReference
-        fout = toOutputStream(stream)
+        fout = toOutputStream(input)
         exitValue <- Bracket[F, Throwable].bracket(Sync[F].delay {
           val p = new ProcessIO(
             fout andThen(Extract[F].extract),
