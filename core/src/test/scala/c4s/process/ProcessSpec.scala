@@ -59,11 +59,14 @@ class ProcessSpec extends Specification {
     }
 
     "run command reading a stream from another command" >> {
-      withProcess{ implicit shell =>
-        for {
-          result <- Process.run("ls -las")
-          resultStream <- Process.run("wc", result.output)
-        } yield resultStream.exitCode == (ExitCode.Success)
+      withProcess { implicit shell =>
+        createTmpDirectory[IO].use { path =>
+          for {
+            _ <- Process.runInPath("touch test-file", path)
+            result <- Process.runInPath("ls", path)
+            resultStream <- Process.runInPath("wc", result.output, path)
+          } yield resultStream.exitCode == (ExitCode.Success)
+        }
       }.unsafeRunSync()
     }
 
