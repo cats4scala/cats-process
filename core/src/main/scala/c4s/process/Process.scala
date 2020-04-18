@@ -8,18 +8,17 @@ import fs2.Stream
 import fs2.io.writeOutputStream
 
 trait Process[F[_]] {
-  def run(command: String, path: Option[Path]): F[ProcessResult[F]]
-  def run(command: String, stream: Stream[F, Byte], path: Option[Path]): F[ProcessResult[F]]
+  def run(command: String, stream: Option[Stream[F, Byte]], path: Option[Path]): F[ProcessResult[F]]
 }
 
 object Process {
   import scala.sys.process.{Process => ScalaProcess, _}
   final def apply[F[_]](implicit process: Process[F]): Process[F] = process
 
-  final def run[F[_]: Process](command: String): F[ProcessResult[F]] = Process[F].run(command, None)
+  final def run[F[_]: Process](command: String): F[ProcessResult[F]] = Process[F].run(command, None, None)
 
   final def runInPath[F[_]: Process](command: String, path: Path): F[ProcessResult[F]] =
-    Process[F].run(command, path.some)
+    Process[F].run(command, None, path.some)
 
   final def impl[F[_]: Concurrent: Bracket[?[_], Throwable]: ContextShift: Extract](
       blocker: Blocker
@@ -30,7 +29,7 @@ object Process {
     import java.util.concurrent.atomic.AtomicReference
     val atomicReference = Sync[F].delay(new AtomicReference[Stream[F, Byte]])
 
-    private final def runStream(command: String, stream: Option[Stream[F, Byte]], path: Option[Path]): F[ProcessResult[F]] =
+    override def run(command: String, stream: Option[Stream[F, Byte]], path: Option[Path]): F[ProcessResult[F]] =
       for {
         outputRef <- atomicReference
         errorRef <- atomicReference
@@ -75,11 +74,5 @@ object Process {
       } finally {
         is.close()
       }
-
-    override def run(command: String, path: Option[Path]): F[ProcessResult[F]] =
-      runStream(command, None, path)
-
-    override def run(command: String, stream: Stream[F, Byte], path: Option[Path]): F[ProcessResult[F]] =
-      runStream(command, Some(stream), path)
   }
 }
