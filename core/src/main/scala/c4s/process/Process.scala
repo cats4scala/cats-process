@@ -8,7 +8,7 @@ import fs2.Stream
 import fs2.io.writeOutputStream
 
 trait Process[F[_]] {
-  def run(command: String, stream: Option[Stream[F, Byte]], path: Option[Path]): F[ProcessResult[F]]
+  def run(command: String, input: Option[Stream[F, Byte]], path: Option[Path]): F[ProcessResult[F]]
 }
 
 object Process {
