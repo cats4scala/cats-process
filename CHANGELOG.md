@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Added
 - Validate CHANGELOG in CI workflow
+- Include latest stable and latest snapshot build tools info in docs
 
 ### Fixed
 - :rocket: GitHub Release job in release workflow
