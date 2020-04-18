@@ -76,6 +76,5 @@ object Process {
       } finally {
         is.close()
       }
-
   }
 }
