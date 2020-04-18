@@ -17,7 +17,7 @@ object Process {
 
   final def run[F[_]: Process](command: String): F[ProcessResult[F]] = Process[F].run(command, None, None)
 
-  final def run[F[_]: Process](command: String, input: Stream[F, Byte]): F[ProcessResult[F]] = Process[F].run(command, Some(stream), None)
+  final def run[F[_]: Process](command: String, input: Stream[F, Byte]): F[ProcessResult[F]] = Process[F].run(command, Some(input), None)
 
   final def runInPath[F[_]: Process](command: String, path: Path): F[ProcessResult[F]] =
     Process[F].run(command, None, path.some)
@@ -50,7 +50,7 @@ object Process {
         error <- Sync[F].delay(errorRef.get())
       } yield ProcessResult(ExitCode(exitValue), output, error)
 
-    def toOutputStream(opt: Option[Stream[F, Byte]]): OutputStream => F[Unit] = out =>
+    private[this] def toOutputStream(opt: Option[Stream[F, Byte]]): OutputStream => F[Unit] = out =>
       opt.fold(Sync[F].unit){ stream =>
         Resource.fromAutoCloseableBlocking(blocker)(Sync[F].delay {out})
           .use { outStream =>
