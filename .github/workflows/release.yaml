@@ -63,6 +63,39 @@ jobs:
           draft: true
           prerelease: false
 
+  changelog:
+    name: changelog
+    runs-on: ubuntu-latest
+    if: ${{ startsWith(github.ref, 'ref/tags') }}
+    needs: release
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+      - uses: actions/setup-python@v1
+        with:
+          python-version: '3.x'
+      - name: Install python-kacl
+        run: pip install python-kacl
+      - id: vars
+        run: |
+          echo ::set-output name=tag::${GITHUB_REF/refs\/tags\//}
+          echo ::set-output name=version::${GITHUB_REF/refs\/tags\/v/}
+      - run: git switch master
+      - name: Release ${{ steps.vars.outputs.version }} in CHANGELOG.md
+        run: kacl-cli --config .github/.kacl.yaml release ${{ steps.vars.outputs.version }} --auto-link --modify
+      - name: Commit CHANGELOG.md
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit --all --message "Close ${{ steps.vars.outputs.version }} release in CHANGELOG.md"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: master
+
   publish-microsite:
     name: publish microsite
     runs-on: ubuntu-latest
