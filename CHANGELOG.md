@@ -7,6 +7,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Added
 - Validate CHANGELOG in CI workflow
+- Close CHANGELOG version automatically when a new release is made
+
+### Changed
+- Update `specs2` to 4.9.3
+- Update `sbt-scalafmt` to 2.3.4
+- Update `sbt` to 1.3.10
+- Update `cats-effect` to 2.1.3
 
 ### Fixed
 - :rocket: GitHub Release job in release workflow
