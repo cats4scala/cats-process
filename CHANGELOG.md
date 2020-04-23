@@ -7,7 +7,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Added
 - Validate CHANGELOG in CI workflow
+- Close CHANGELOG version automatically when a new release is made
 - Include latest stable and latest snapshot build tools info in docs
+
+### Changed
+- Update `specs2` to 4.9.3
+- Update `sbt-scalafmt` to 2.3.4
+- Update `sbt` to 1.3.10
+- Update `cats-effect` to 2.1.3
 
 ### Fixed
 - :rocket: GitHub Release job in release workflow
@@ -27,5 +34,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Setup site: https://cats4scala.github.io/cats-process
 - Crossbuild project for Scala 2.12.11 and 2.13.1
 
-[Unreleased]: https://github.com/cats4scala/cats-process/tree/v0.0.1...HEAD
+[Unreleased]: https://github.com/cats4scala/cats-process/compare/v0.0.1...HEAD
 [0.0.1]: https://github.com/cats4scala/cats-process/compare/4ee110a...v0.0.1

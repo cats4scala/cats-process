@@ -93,4 +93,4 @@ jobs:
       - name: Install python-kacl
         run: pip install python-kacl
       - name: Verify CHANGELOG.md
-        run: kacl-cli verify
+        run: kacl-cli --config .github/.kacl.yaml verify
