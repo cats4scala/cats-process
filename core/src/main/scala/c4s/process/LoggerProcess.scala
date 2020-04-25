@@ -9,7 +9,7 @@ import fs2.{text, Stream}
 
 private[process] final class LoggerProcess[F[_]: Sync](process: Process[F], logger: Logger[F]) extends Process[F] {
 
-  override final def run(command: String, stream:Option[Stream[F, Byte]], path: Option[Path]): F[ProcessResult[F]] =
+  override final def run(command: String, input: Option[Stream[F, Byte]], path: Option[Path]): F[ProcessResult[F]] =
     for {
       result <- process.run(command, stream, path)
       newResult <- logProcessResult(path, command, result)
