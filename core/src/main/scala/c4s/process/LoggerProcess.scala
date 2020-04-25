@@ -11,7 +11,7 @@ private[process] final class LoggerProcess[F[_]: Sync](process: Process[F], logg
 
   override final def run(command: String, input: Option[Stream[F, Byte]], path: Option[Path]): F[ProcessResult[F]] =
     for {
-      result <- process.run(command, stream, path)
+      result <- process.run(command, input, path)
       newResult <- logProcessResult(path, command, result)
     } yield newResult
 
