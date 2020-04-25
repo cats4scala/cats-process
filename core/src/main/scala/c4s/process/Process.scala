@@ -17,7 +17,8 @@ object Process {
 
   final def run[F[_]: Process](command: String): F[ProcessResult[F]] = Process[F].run(command, None, None)
 
-  final def run[F[_]: Process](command: String, input: Stream[F, Byte]): F[ProcessResult[F]] = Process[F].run(command, Some(input), None)
+  final def run[F[_]: Process](command: String, input: Stream[F, Byte]): F[ProcessResult[F]] =
+    Process[F].run(command, Some(input), None)
 
   final def runInPath[F[_]: Process](command: String, path: Path): F[ProcessResult[F]] =
     Process[F].run(command, None, path.some)
@@ -26,8 +27,9 @@ object Process {
       blocker: Blocker
   ): Process[F] = new ProcessImpl[F](blocker)
 
-  private[this] final class ProcessImpl[F[_]: Concurrent: Bracket[?[_], Throwable]: ContextShift: Extract](blocker: Blocker)
-      extends Process[F] {
+  private[this] final class ProcessImpl[F[_]: Concurrent: Bracket[?[_], Throwable]: ContextShift: Extract](
+      blocker: Blocker
+  ) extends Process[F] {
     import java.util.concurrent.atomic.AtomicReference
     val atomicReference = Sync[F].delay(new AtomicReference[Stream[F, Byte]])
 
@@ -38,7 +40,7 @@ object Process {
         fout = toOutputStream(input)
         exitValue <- Bracket[F, Throwable].bracket(Sync[F].delay {
           val p = new ProcessIO(
-            fout andThen(Extract[F].extract),
+            fout andThen (Extract[F].extract),
             redirectInputStream(outputRef, _),
             redirectInputStream(errorRef, _)
           )
@@ -50,16 +52,18 @@ object Process {
         error <- Sync[F].delay(errorRef.get())
       } yield ProcessResult(ExitCode(exitValue), output, error)
 
-    private[this] def toOutputStream(opt: Option[Stream[F, Byte]]): OutputStream => F[Unit] = out =>
-      opt.fold(Sync[F].unit){ stream =>
-        Resource.fromAutoCloseableBlocking(blocker)(Sync[F].delay {out})
-          .use { outStream =>
-            stream
-              .through(writeOutputStream[F](Concurrent[F].delay(outStream), blocker, false))
-              .compile
-              .drain
-          }
-      }
+    private[this] def toOutputStream(opt: Option[Stream[F, Byte]]): OutputStream => F[Unit] =
+      out =>
+        opt.fold(Sync[F].unit) { stream =>
+          Resource
+            .fromAutoCloseableBlocking(blocker)(Sync[F].delay(out))
+            .use { outStream =>
+              stream
+                .through(writeOutputStream[F](Concurrent[F].delay(outStream), blocker, false))
+                .compile
+                .drain
+            }
+        }
 
     private[this] def redirectInputStream(
         ref: AtomicReference[Stream[F, Byte]],

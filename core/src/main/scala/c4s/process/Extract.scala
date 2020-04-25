@@ -14,4 +14,3 @@ object Extract {
     override def extract[A](fa: IO[A]): A = fa.unsafeRunSync()
   }
 }
-
