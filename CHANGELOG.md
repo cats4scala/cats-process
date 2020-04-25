@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Added
 - Validate CHANGELOG in CI workflow
+- Refactor code to adds an optional stream parameter in the run method of Process 
 
 ### Fixed
 - :rocket: GitHub Release job in release workflow
