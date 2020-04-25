@@ -64,8 +64,9 @@ class ProcessSpec extends Specification {
           for {
             _ <- Process.runInPath("touch test-file", path)
             result <- Process.runInPath("ls", path)
-            resultStream <- Process.run("wc", result.output)
-          } yield resultStream.exitCode == (ExitCode.Success)
+            resultStream <- Process.run("wc", result.output).string
+            value = resultStream.replaceAll(" ", "").trim.toInt
+          } yield value should_==(1110)
         }
       }.unsafeRunSync()
     }
