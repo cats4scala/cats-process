@@ -6,7 +6,7 @@ pull_request_rules:
       - status-success=microsite
       - status-success=format
       - status-success=compile and test 2.12.11
-      - status-success=compile and test 2.13.1
+      - status-success=compile and test 2.13.2
       - body~=labels:.*semver-patch
     actions:
       merge:
@@ -18,7 +18,7 @@ pull_request_rules:
       - status-success=microsite
       - status-success=format
       - status-success=compile and test 2.12.11
-      - status-success=compile and test 2.13.1
+      - status-success=compile and test 2.13.2
       - body~=labels:*semver-minor
       - "#approved-reviews-by>=1"
     actions:
