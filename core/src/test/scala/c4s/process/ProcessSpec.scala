@@ -66,7 +66,7 @@ class ProcessSpec extends Specification {
             result <- Process.runInPath("ls", path)
             resultStream <- Process.run("wc", result.output).string
             value = resultStream.replaceAll(" ", "").trim.toInt
-          } yield value should_==(1110)
+          } yield value should_== (1110)
         }
       }.unsafeRunSync()
     }
