@@ -42,7 +42,8 @@ lazy val site = project
     sourceDirectory in (Compile, paradox) := mdocOut.value,
     Compile / paradoxMaterialTheme ~= {
       _.withRepository(uri("https://github.com/cats4scala/cats-process"))
-    }
+    },
+    paradoxProperties += ("project.version.stable" -> previousStableVersion.value.get)
   )
   .dependsOn(core)
 

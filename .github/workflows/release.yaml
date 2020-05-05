@@ -102,6 +102,8 @@ jobs:
     if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
       - uses: olafurpg/setup-scala@v7
         with:
@@ -122,5 +124,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site/target/site
-          commit_message: ${{ github.event.head_commit.message }}
+          publish_branch: 'gh-pages'
+          publish_dir: './site/target/site'
+          enable_jekyll: false
+          commit_message: '${{ github.event.head_commit.message }}'
