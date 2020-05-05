@@ -58,6 +58,19 @@ class ProcessSpec extends Specification {
       }.unsafeRunSync()
     }
 
+    "run command reading a stream from another command" >> {
+      withProcess { implicit shell =>
+        createTmpDirectory[IO].use { path =>
+          for {
+            _ <- Process.runInPath("touch test-file", path)
+            result <- Process.runInPath("ls", path)
+            resultStream <- Process.run("wc", result.output).string
+            value = resultStream.replaceAll(" ", "").trim.toInt
+          } yield value should_== (1110)
+        }
+      }.unsafeRunSync()
+    }
+
   }
 
   def withProcess[R](f: Process[IO] => IO[R]): IO[R] =

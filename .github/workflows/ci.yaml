@@ -58,7 +58,7 @@ jobs:
       fail-fast: false
       matrix:
         scala:
-          - 2.13.1
+          - 2.13.2
           - 2.12.11
     name: compile and test ${{ matrix.scala }}
     runs-on: ubuntu-latest

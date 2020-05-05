@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Validate CHANGELOG in CI workflow
 - Close CHANGELOG version automatically when a new release is made
+- Handle input for `Process`es
 - Include latest stable and latest snapshot build tools info in docs
 
 ### Changed
@@ -15,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Update `sbt-scalafmt` to 2.3.4
 - Update `sbt` to 1.3.10
 - Update `cats-effect` to 2.1.3
+- Update `scala` to 2.13.2
 
 ### Fixed
 - :rocket: GitHub Release job in release workflow
