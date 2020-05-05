@@ -2,40 +2,45 @@ package c4s.process
 
 import cats.effect._
 import cats.implicits._
-
-import java.io.InputStream
+import java.io.{InputStream, OutputStream}
 import java.nio.file.Path
 import fs2.Stream
+import fs2.io.writeOutputStream
 
 trait Process[F[_]] {
-  def run(command: String, path: Option[Path]): F[ProcessResult[F]]
+  def run(command: String, input: Option[Stream[F, Byte]], path: Option[Path]): F[ProcessResult[F]]
 }
 
 object Process {
   import scala.sys.process.{Process => ScalaProcess, _}
   final def apply[F[_]](implicit process: Process[F]): Process[F] = process
 
-  final def run[F[_]: Process](command: String): F[ProcessResult[F]] = Process[F].run(command, None)
+  final def run[F[_]: Process](command: String): F[ProcessResult[F]] = Process[F].run(command, None, None)
+
+  final def run[F[_]: Process](command: String, input: Stream[F, Byte]): F[ProcessResult[F]] =
+    Process[F].run(command, Some(input), None)
 
   final def runInPath[F[_]: Process](command: String, path: Path): F[ProcessResult[F]] =
-    Process[F].run(command, path.some)
+    Process[F].run(command, None, path.some)
 
-  final def impl[F[_]: Sync: Bracket[?[_], Throwable]: ContextShift](
+  final def impl[F[_]: Concurrent: Bracket[?[_], Throwable]: ContextShift: Extract](
       blocker: Blocker
   ): Process[F] = new ProcessImpl[F](blocker)
 
-  private[this] final class ProcessImpl[F[_]: Sync: Bracket[?[_], Throwable]: ContextShift](blocker: Blocker)
-      extends Process[F] {
+  private[this] final class ProcessImpl[F[_]: Concurrent: Bracket[?[_], Throwable]: ContextShift: Extract](
+      blocker: Blocker
+  ) extends Process[F] {
     import java.util.concurrent.atomic.AtomicReference
     val atomicReference = Sync[F].delay(new AtomicReference[Stream[F, Byte]])
 
-    final def run(command: String, path: Option[Path]): F[ProcessResult[F]] =
+    override def run(command: String, input: Option[Stream[F, Byte]], path: Option[Path]): F[ProcessResult[F]] =
       for {
         outputRef <- atomicReference
         errorRef <- atomicReference
+        fout = toOutputStream(input)
         exitValue <- Bracket[F, Throwable].bracket(Sync[F].delay {
           val p = new ProcessIO(
-            _ => (),
+            fout andThen (Extract[F].extract),
             redirectInputStream(outputRef, _),
             redirectInputStream(errorRef, _)
           )
@@ -46,6 +51,19 @@ object Process {
         output <- Sync[F].delay(outputRef.get())
         error <- Sync[F].delay(errorRef.get())
       } yield ProcessResult(ExitCode(exitValue), output, error)
+
+    private[this] def toOutputStream(opt: Option[Stream[F, Byte]]): OutputStream => F[Unit] =
+      out =>
+        opt.fold(Sync[F].unit) { stream =>
+          Resource
+            .fromAutoCloseableBlocking(blocker)(Sync[F].delay(out))
+            .use { outStream =>
+              stream
+                .through(writeOutputStream[F](Concurrent[F].delay(outStream), blocker, false))
+                .compile
+                .drain
+            }
+        }
 
     private[this] def redirectInputStream(
         ref: AtomicReference[Stream[F, Byte]],
