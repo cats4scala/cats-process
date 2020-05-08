@@ -29,9 +29,10 @@ package object syntax {
     final def lines: F[List[String]] = result.flatMap(_.output.asLines)
     final def string: F[String] = result.flatMap(_.output.asString)
 
-    final def strict: F[(ExitCode, Stream[F, Byte])] = result.flatMap {
-      case r if r.exitCode == ExitCode.Success => Sync[F].pure(r.exitCode -> r.output)
-      case r => Sync[F].raiseError(new ProcessFailure(r))
-    }
+    final def strict: F[(ExitCode, Stream[F, Byte])] =
+      result.flatMap {
+        case r if r.exitCode == ExitCode.Success => Sync[F].pure(r.exitCode -> r.output)
+        case r => Sync[F].raiseError(new ProcessFailure(r))
+      }
   }
 }
