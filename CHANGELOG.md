@@ -12,11 +12,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Include latest stable and latest snapshot build tools info in docs
 
 ### Changed
-- Update `specs2` to 4.9.3
+- Update `specs2` to 4.9.4
 - Update `sbt-scalafmt` to 2.5.1
 - Update `sbt` to 1.3.10
 - Update `cats-effect` to 2.1.3
 - Update `scala` to 2.13.2
+- Update `sbt-ci-release` to 1.5.3
 - Update `sbt-mdoc` to 2.2.0
 
 ### Fixed
