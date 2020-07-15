@@ -77,8 +77,6 @@ object Process {
           n = is.read()
         }
         ref.set(Stream.fromIterator(queue.iterator))
-      } finally {
-        is.close()
-      }
+      } finally is.close()
   }
 }

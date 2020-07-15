@@ -12,11 +12,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Include latest stable and latest snapshot build tools info in docs
 
 ### Changed
-- Update `specs2` to 4.9.3
-- Update `sbt-scalafmt` to 2.3.4
-- Update `sbt` to 1.3.10
-- Update `cats-effect` to 2.1.3
+- Update `specs2` to 4.10.0
+- Update `scalafmt` to 2.6.3
+- Update `sbt-scalafmt` to 2.4.0
+- Update `sbt` to 1.3.13
+- Update `cats-effect` to 2.1.4
 - Update `scala` to 2.13.2
+- Update `sbt-ci-release` to 1.5.3
+- Update `sbt-mdoc` to 2.2.3
+- Update `log4cats` to 1.1.1
+- Update `sbt-tpolecat` to 0.1.13
+- Update `fs2` to 2.4.2
+
 
 ### Fixed
 - :rocket: GitHub Release job in release workflow
