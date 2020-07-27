@@ -59,10 +59,10 @@ package object syntax {
     final def string: F[String] = result.flatMap(_.output.asString)
 
     /**
-      * Raise [[c4s.process.ProcessFailure]] if process exit code is not successful
-      *
-      * @return tuple with exit code and stdout
-      */
+     * Raise [[c4s.process.ProcessFailure]] if process exit code is not successful
+     *
+     * @return tuple with exit code and stdout
+     */
     final def strict: F[(ExitCode, Stream[F, Byte])] =
       result.flatMap {
         case r if r.exitCode == ExitCode.Success => Sync[F].pure(r.exitCode -> r.output)
