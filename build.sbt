@@ -2,7 +2,7 @@ val scalaV = "2.13.2"
 
 val catsV = "2.1.1"
 val catsEffectV = "2.1.4"
-val fs2V = "2.4.2"
+val fs2V = "2.4.3"
 val specs2V = "4.10.3"
 val log4catsV = "1.1.1"
 
