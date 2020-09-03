@@ -1,6 +1,6 @@
 package c4s.process
 
-import cats.implicits._
+import cats.syntax.all._
 import cats.effect._
 import fs2.{text, Stream}
 
