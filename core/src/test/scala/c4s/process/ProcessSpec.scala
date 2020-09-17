@@ -1,7 +1,7 @@
 package c4s.process
 
 import cats.effect._
-import cats.implicits._
+import cats.syntax.all._
 import org.specs2.mutable.Specification
 import scala.concurrent.ExecutionContext
 

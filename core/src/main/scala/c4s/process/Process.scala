@@ -1,7 +1,7 @@
 package c4s.process
 
 import cats.effect._
-import cats.implicits._
+import cats.syntax.all._
 import java.io.{InputStream, OutputStream}
 import java.nio.file.Path
 import fs2.Stream
