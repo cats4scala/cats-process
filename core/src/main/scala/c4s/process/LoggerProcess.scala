@@ -1,6 +1,6 @@
 package c4s.process
 
-import cats.implicits._
+import cats.syntax.all._
 import cats.effect._
 import io.chrisdavenport.log4cats.Logger
 import c4s.process.syntax._
