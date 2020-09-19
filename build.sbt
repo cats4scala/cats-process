@@ -1,9 +1,11 @@
-val scalaV = "2.13.2"
+val scalaV = "2.13.3"
 
 val catsV = "2.2.0"
 val catsEffectV = "2.2.0"
 val fs2V = "2.4.4"
 val specs2V = "4.10.3"
+val munitV = "0.7.12"
+val munitCatsEffectV = "0.3.0"
 val log4catsV = "1.1.1"
 
 val kindProjectorV = "0.11.0"
@@ -54,14 +56,15 @@ lazy val commonSettings = Seq(
   addCompilerPlugin("org.typelevel" %% "kind-projector"     % kindProjectorV cross CrossVersion.full),
   addCompilerPlugin("com.olegpy"    %% "better-monadic-for" % betterMonadicForV),
   libraryDependencies ++= Seq(
-    "org.typelevel"     %% "cats-core"        % catsV,
-    "org.typelevel"     %% "cats-effect"      % catsEffectV,
-    "co.fs2"            %% "fs2-core"         % fs2V,
-    "co.fs2"            %% "fs2-io"           % fs2V,
-    "io.chrisdavenport" %% "log4cats-core"    % log4catsV,
-    "io.chrisdavenport" %% "log4cats-slf4j"   % log4catsV,
-    "io.chrisdavenport" %% "log4cats-testing" % log4catsV % Test,
-    "org.specs2"        %% "specs2-core"      % specs2V   % Test
+    "org.typelevel"     %% "cats-core"         % catsV,
+    "org.typelevel"     %% "cats-effect"       % catsEffectV,
+    "co.fs2"            %% "fs2-core"          % fs2V,
+    "co.fs2"            %% "fs2-io"            % fs2V,
+    "io.chrisdavenport" %% "log4cats-core"     % log4catsV,
+    "io.chrisdavenport" %% "log4cats-slf4j"    % log4catsV,
+    "io.chrisdavenport" %% "log4cats-testing"  % log4catsV        % Test,
+    "org.scalameta"     %% "munit"             % munitV           % Test,
+    "org.typelevel"     %% "munit-cats-effect" % munitCatsEffectV % Test
   )
 )
 
@@ -82,6 +85,7 @@ inThisBuild(
     homepage := Some(url("https://github.com/cats4scala/cats-process")),
     licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
     pomIncludeRepository := { _ => false },
+    testFrameworks += new TestFramework("munit.Framework"),
     scalacOptions in (Compile, doc) ++= Seq(
       "-groups",
       "-sourcepath",
@@ -91,3 +95,6 @@ inThisBuild(
     )
   )
 )
+
+addCommandAlias("fmt", """scalafmtSbt;scalafmtAll""")
+addCommandAlias("fmtCheck", """scalafmtSbtCheck;scalafmtCheckAll""")
