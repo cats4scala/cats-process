@@ -1,14 +1,14 @@
 package c4s.process
 
+import cats.effect._
 import io.chrisdavenport.log4cats.testing.TestingLogger
 import io.chrisdavenport.log4cats.testing.TestingLogger._
-import cats.effect._
 import munit.CatsEffectSuite
 
 class LoggerProcessSpec extends CatsEffectSuite {
   import c4s.process.syntax._
 
-  test("it should log what we are doing and still getting the command when it is succeeded") {
+  test("It should log what we are doing and still getting the command when it is succeeded") {
     withProcess.use { case (shell, logger) =>
       for {
         output <- Process.run("ls -la")(shell).string
@@ -21,7 +21,7 @@ class LoggerProcessSpec extends CatsEffectSuite {
     }
   }
 
-  test("it should log what we are doing and still getting the command when it fails") {
+  test("It should log what we are doing and still getting the command when it fails") {
     withProcess.use { case (shell, logger) =>
       for {
         result <- Process.run("ls foo")(shell)

@@ -63,7 +63,7 @@ class ProcessSpec extends CatsEffectSuite {
     }
   }
 
-  test("it should run command reading a stream from another command") {
+  test("It should run command reading a stream from another command") {
     withProcess.use { implicit shell =>
       createTmpDirectory[IO].use { path =>
         Process.runInPath("touch test-file", path) >>
