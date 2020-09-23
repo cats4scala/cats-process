@@ -50,18 +50,3 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 [Unreleased]: https://github.com/cats4scala/cats-process/compare/v0.0.1...HEAD
 [0.0.1]: https://github.com/cats4scala/cats-process/compare/4ee110a...v0.0.1
-
-## [0.0.2] - 2020-09-20
-
-### Added
-
-- `munit` 0.7.12
-- `munit cats effect` 0.3.0
-
-## Changed
-
-- CHANGELOG.md
-
-### Removed
-
-- `spec2`
