@@ -26,7 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Update `log4cats` to 1.1.1
 - Update `sbt-tpolecat` to 0.1.13
 - Update `fs2` to 2.4.2
-
+- Replace `specs2` with `munit` and `munit-cats-effect`
 ### Fixed
 
 - :rocket: GitHub Release job in release workflow
