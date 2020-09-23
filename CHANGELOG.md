@@ -14,7 +14,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Include latest stable and latest snapshot build tools info in docs
 
 ### Changed
-
 - Update `specs2` to 4.10.0
 - Update `scalafmt` to 2.6.3
 - Update `sbt-scalafmt` to 2.4.0
