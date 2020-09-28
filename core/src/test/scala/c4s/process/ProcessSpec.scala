@@ -2,80 +2,92 @@ package c4s.process
 
 import cats.effect._
 import cats.syntax.all._
-import org.specs2.mutable.Specification
-import scala.concurrent.ExecutionContext
-
 import java.nio.file._
+import munit.CatsEffectSuite
 
-class ProcessSpec extends Specification {
-  implicit val executionContext = ExecutionContext.global
-  implicit val contextShift: ContextShift[IO] = IO.contextShift(executionContext)
+class ProcessSpec extends CatsEffectSuite {
+  import c4s.process.syntax._
 
-  "Process should be able to" >> {
-    import c4s.process.syntax._
-
-    "run commands" >> {
-      withProcess(implicit shell => Process.run("ls -la").map(_.exitCode must ===(ExitCode.Success)))
-        .unsafeRunSync()
-    }
-
-    "strict run commands" >> {
-      withProcess(implicit shell => Process.run("ls -la").strict.map(_._1 must ===(ExitCode.Success)))
-        .unsafeRunSync()
-    }
-
-    "strict run commands when it is failing" >> {
-      withProcess(implicit shell => Process.run("ls foo").strict)
-        .unsafeRunSync() must throwA[ProcessFailure[IO]]
-    }
-
-    "get the output as string and execute commands in different folder" >> {
-      withProcess { implicit shell =>
-        createTmpDirectory[IO].use { path =>
-          for {
-            _ <- Process.runInPath("mkdir foo", path)
-            output <- Process.runInPath("ls", path).string
-            result <- IO {
-              output must contain(s"foo")
-            }
-          } yield result
-        }
-      }.unsafeRunSync()
-    }
-
-    "get lines and execute commands in different folder" >> {
-      withProcess { implicit shell =>
-        createTmpDirectory[IO].use { path =>
-          for {
-            _ <- Process.runInPath("mkdir foo", path)
-            _ <- Process.runInPath("mkdir bar", path)
-            output <- Process.runInPath("ls", path).lines
-            result <- IO {
-              output must beEqualTo(List("bar", "foo"))
-            }
-          } yield result
-        }
-      }.unsafeRunSync()
-    }
-
-    "run command reading a stream from another command" >> {
-      withProcess { implicit shell =>
-        createTmpDirectory[IO].use { path =>
-          for {
-            _ <- Process.runInPath("touch test-file", path)
-            result <- Process.runInPath("ls", path)
-            resultStream <- Process.run("wc", result.output).string
-            value = resultStream.replaceAll(" ", "").trim.toInt
-          } yield value should_== (1110)
-        }
-      }.unsafeRunSync()
-    }
-
+  test("It should run commands") {
+    withProcess.use(implicit shell =>
+      Process
+        .run("ls -la")
+        .map(x => assertEquals(x.exitCode, ExitCode.Success))
+    )
   }
 
-  def withProcess[R](f: Process[IO] => IO[R]): IO[R] =
+  test("It should strict run commands") {
+    withProcess.use(implicit shell =>
+      Process
+        .run("ls -la")
+        .strict
+        .map(x => assertEquals(x._1, ExitCode.Success))
+    )
+  }
+
+  test("It should strict run commands when it is failing") {
+    withProcess.use(implicit shell =>
+      Process
+        .run("ls foo")
+        .strict
+        .attempt
+        .map(x =>
+          assert(
+            x.swap.exists(_.getMessage().startsWith("Failed to execute command")),
+            "It should failed to execute command"
+          )
+        )
+    )
+  }
+
+  test("It should get the output as string and execute commands in different folder") {
+    withProcess.use { implicit shell =>
+      createTmpDirectory[IO].use { path =>
+        Process.runInPath("mkdir foo", path) >>
+          Process.runInPath("ls", path).string.map { output =>
+            assert(output.contains("foo"), "foo")
+          }
+      }
+    }
+  }
+
+  test("It should get lines and execute commands in different folder") {
+    withProcess.use { implicit shell =>
+      createTmpDirectory[IO].use { path =>
+        Process.runInPath("mkdir foo", path) >>
+          Process.runInPath("mkdir bar", path) >>
+          Process.runInPath("ls", path).lines.map { output =>
+            assertEquals(output, List("bar", "foo"))
+          }
+      }
+    }
+  }
+
+  test("It should run command reading a stream from another command") {
+    withProcess.use { implicit shell =>
+      createTmpDirectory[IO].use { path =>
+        Process.runInPath("touch test-file", path) >>
+          Process.runInPath("ls", path) >>= (result =>
+          Process
+            .run("wc", result.output)
+            .string
+            .map(resultStream =>
+              assertEquals(
+                resultStream
+                  .replaceAll(" ", "")
+                  .trim
+                  .toInt,
+                1110
+              )
+            )
+        )
+      }
+    }
+  }
+
+  val withProcess: Resource[IO, Process[IO]] =
     Blocker[IO]
-      .use(x => f(Process.impl[IO](x)))
+      .map(x => Process.impl[IO](x))
 
   def createTmpDirectory[F[_]: Sync]: Resource[F, Path] =
     Resource.make(Sync[F].delay(Files.createTempDirectory("tmp")))(path =>
