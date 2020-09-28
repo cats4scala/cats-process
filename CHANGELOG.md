@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Close CHANGELOG version automatically when a new release is made
 - Handle input for `Process`es
 - Include latest stable and latest snapshot build tools info in docs
+- Add ScalaDoc support
 
 ### Changed
 - Update `specs2` to 4.10.0

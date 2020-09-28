@@ -27,12 +27,16 @@ lazy val core = project
     scalaVersion := scalaV
   )
 
+lazy val Core = config("core")
+lazy val Root = config(".")
+
 lazy val site = project
   .in(file("site"))
   .disablePlugins(MimaPlugin)
   .enablePlugins(MdocPlugin)
   .enablePlugins(ParadoxSitePlugin)
   .enablePlugins(ParadoxMaterialThemePlugin)
+  .enablePlugins(ScalaUnidocPlugin)
   .enablePlugins(PreprocessPlugin)
   .enablePlugins(NoPublishPlugin)
   .settings(
@@ -43,7 +47,12 @@ lazy val site = project
     Compile / paradoxMaterialTheme ~= {
       _.withRepository(uri("https://github.com/cats4scala/cats-process"))
     },
-    paradoxProperties += ("project.version.stable" -> previousStableVersion.value.get)
+    paradoxProperties += ("project.version.stable" -> previousStableVersion.value.get),
+    siteSubdirName in SiteScaladoc := "api"
+  )
+  .settings(
+    SiteScaladocPlugin.scaladocSettings(Root, mappings in (Compile, packageDoc) in core, "api"),
+    SiteScaladocPlugin.scaladocSettings(Core, mappings in (Compile, packageDoc) in core, "api/core")
   )
   .dependsOn(core)
 
