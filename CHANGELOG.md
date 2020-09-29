@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.0.2] - 2020-09-29
 ### Added
 - Validate CHANGELOG in CI workflow
 - Close CHANGELOG version automatically when a new release is made
@@ -46,5 +48,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Setup site: https://cats4scala.github.io/cats-process
 - Crossbuild project for Scala 2.12.11 and 2.13.1
 
-[Unreleased]: https://github.com/cats4scala/cats-process/compare/v0.0.1...HEAD
+[Unreleased]: https://github.com/cats4scala/cats-process/compare/v0.0.2...HEAD
+[0.0.2]: https://github.com/cats4scala/cats-process/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/cats4scala/cats-process/compare/4ee110a...v0.0.1
