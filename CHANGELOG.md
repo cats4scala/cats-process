@@ -31,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - :rocket: GitHub Release job in release workflow
 - Library version in site
 - Maven badge now shows the latest stable release
+- Snapshot releases are now using the proper version
 
 ## [0.0.1] - 2020-04-07
 ### Added
