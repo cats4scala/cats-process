@@ -13,17 +13,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Add ScalaDoc support
 
 ### Changed
-- Update `specs2` to 4.10.0
-- Update `scalafmt` to 2.6.3
+- Update `scalafmt` to 2.7.2
 - Update `sbt-scalafmt` to 2.4.0
 - Update `sbt` to 1.3.13
-- Update `cats-effect` to 2.1.4
+- Update `cats` to 2.2.0
+- Update `cats-effect` to 2.2.0
 - Update `scala` to 2.13.2
 - Update `sbt-ci-release` to 1.5.3
-- Update `sbt-mdoc` to 2.2.3
+- Update `sbt-mdoc` to 2.2.9
 - Update `log4cats` to 1.1.1
 - Update `sbt-tpolecat` to 0.1.13
-- Update `fs2` to 2.4.2
+- Update `fs2` to 2.4.4
 - Replace `specs2` with `munit` and `munit-cats-effect`
 
 ### Fixed
