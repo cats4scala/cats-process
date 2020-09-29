@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Add ScalaDoc support
 
 ### Changed
+- Update `scala` to 2.12.12 and 2.13.3
 - Update `scalafmt` to 2.7.2
 - Update `sbt-scalafmt` to 2.4.0
 - Update `sbt` to 1.3.13
