@@ -9,6 +9,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 - Update `scala` versions in mergify rules
 
+### Fixed
+- Changelog step in release workflow is triggered now
+
 ## [0.0.2] - 2020-09-29
 ### Added
 - Validate CHANGELOG in CI workflow
