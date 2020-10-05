@@ -19,7 +19,7 @@ pull_request_rules:
       - status-success=format
       - status-success~=compile and test 2.12
       - status-success~=compile and test 2.13
-      - body~=labels:*semver-minor
+      - body~=labels:.*semver-minor
       - "#approved-reviews-by>=1"
     actions:
       merge:
