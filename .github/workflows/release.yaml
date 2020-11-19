@@ -8,7 +8,7 @@ on:
     tags: 'v*'
 
 env:
-  JAVA_VERSION: adopt@v1.11
+  JAVA_VERSION: adopt@1.8.0-272
 
 jobs:
 

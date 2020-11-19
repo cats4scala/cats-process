@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Update `actions/setup-python` to v2
 - Update `olafurpg/setup-scala` to v10
 - Update `olafurpg/setup-gpg` to v3
+- Use `adopt@1.8.0-272` instead of `adopt@1.11`
 
 ### Fixed
 - Changelog step in release workflow is triggered now
