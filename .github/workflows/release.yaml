@@ -20,17 +20,17 @@ jobs:
         with:
           fetch-depth: 0
       - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
-      - uses: olafurpg/setup-scala@v7
+      - uses: olafurpg/setup-scala@v10
         with:
           java-version: ${{ env.JAVA_VERSION }}
-      - uses: olafurpg/setup-gpg@v2
+      - uses: olafurpg/setup-gpg@v3
       - name: Cache Coursier
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.cache/coursier
           key: coursier-${{ hashFiles('**/build.sbt') }}
       - name: Cache SBT
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.sbt
           key: sbt-${{ hashFiles('**/build.sbt') }}
@@ -76,7 +76,7 @@ jobs:
         with:
           fetch-depth: 0
       - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v2
         with:
           python-version: '3.x'
       - name: Install python-kacl
@@ -108,16 +108,16 @@ jobs:
         with:
           fetch-depth: 0
       - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
-      - uses: olafurpg/setup-scala@v7
+      - uses: olafurpg/setup-scala@v10
         with:
           java-version: ${{ env.JAVA_VERSION }}
       - name: Cache Coursier
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.cache/coursier
           key: coursier-microsite-${{ hashFiles('**/build.sbt') }}
       - name: Cache SBT
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.sbt
           key: sbt-microsite-${{ hashFiles('**/build.sbt') }}
