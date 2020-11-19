@@ -9,6 +9,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 - Update `scala` versions in mergify rules
 - Match only `2.12` and `2.13` in mergify rules
+- Update `actions/cache` to v2
+- Update `actions/setup-python` to v2
+- Update `olafurpg/setup-scala` to v10
+- Update `olafurpg/setup-gpg` to v3
 
 ### Fixed
 - Changelog step in release workflow is triggered now
