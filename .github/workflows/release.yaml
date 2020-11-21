@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     branches:
-      - master
+      - main
       - series/*
     tags: 'v*'
 
@@ -62,7 +62,7 @@ jobs:
           tag_name: ${{ steps.vars.outputs.tag }}
           release_name: ${{ steps.vars.outputs.tag }}
           body: |
-            Full changelog: https://github.com/cats4scala/cats-process/blob/master/CHANGELOG.md#${{ steps.vars.outputs.version }}---${{ steps.vars.outputs.date }}
+            Full changelog: https://github.com/cats4scala/cats-process/blob/main/CHANGELOG.md#${{ steps.vars.outputs.version }}---${{ steps.vars.outputs.date }}
           draft: true
           prerelease: false
 
@@ -85,7 +85,7 @@ jobs:
         run: |
           echo ::set-output name=tag::${GITHUB_REF/refs\/tags\//}
           echo ::set-output name=version::${GITHUB_REF/refs\/tags\/v/}
-      - run: git switch master
+      - run: git switch main
       - name: Release ${{ steps.vars.outputs.version }} in CHANGELOG.md
         run: kacl-cli --config .github/.kacl.yaml release ${{ steps.vars.outputs.version }} --auto-link --modify
       - name: Commit CHANGELOG.md
@@ -97,12 +97,12 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: master
+          branch: main
 
   publish-microsite:
     name: publish microsite
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v2
         with:

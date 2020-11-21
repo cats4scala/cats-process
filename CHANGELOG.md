@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Update `olafurpg/setup-scala` to v10
 - Update `olafurpg/setup-gpg` to v3
 - Use `adopt@1.8.0-272` instead of `adopt@1.11`
+- Migrate `master` to `main` for default branch
 
 ### Fixed
 - Changelog step in release workflow is triggered now
