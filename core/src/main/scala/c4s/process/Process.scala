@@ -23,11 +23,11 @@ object Process {
   final def runInPath[F[_]: Process](command: String, path: Path): F[ProcessResult[F]] =
     Process[F].run(command, None, path.some)
 
-  final def impl[F[_]: Concurrent: Bracket[?[_], Throwable]: ContextShift: Extract](
+  final def impl[F[_]: Concurrent: Bracket[*[_], Throwable]: ContextShift: Extract](
       blocker: Blocker
   ): Process[F] = new ProcessImpl[F](blocker)
 
-  private[this] final class ProcessImpl[F[_]: Concurrent: Bracket[?[_], Throwable]: ContextShift: Extract](
+  private[this] final class ProcessImpl[F[_]: Concurrent: Bracket[*[_], Throwable]: ContextShift: Extract](
       blocker: Blocker
   ) extends Process[F] {
     import java.util.concurrent.atomic.AtomicReference
