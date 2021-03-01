@@ -59,7 +59,7 @@ jobs:
       matrix:
         scala:
           - 2.13.3
-          - 2.12.12
+          - 2.12.13
     name: compile and test ${{ matrix.scala }}
     runs-on: ubuntu-latest
     steps:
