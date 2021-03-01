@@ -7,7 +7,7 @@ import fs2.{text, Stream}
 package object syntax {
 
   implicit class ProcessOps[F[_]: Sync](process: Process[F]) {
-    import io.chrisdavenport.log4cats.Logger
+    import org.typelevel.log4cats.Logger
 
     /**
      * Wraps the [[c4s.process.Process]] with a `Logger`.

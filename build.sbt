@@ -5,7 +5,7 @@ val catsEffectV = "2.3.3"
 val fs2V = "2.5.3"
 val munitV = "0.7.22"
 val munitCatsEffectV = "0.3.0"
-val log4catsV = "1.1.1"
+val log4catsV = "1.2.0"
 
 val kindProjectorV = "0.11.3"
 val betterMonadicForV = "0.3.1"
@@ -60,19 +60,19 @@ lazy val site = project
 // General Settings
 lazy val commonSettings = Seq(
   scalaVersion := scalaV,
-  crossScalaVersions := Seq(scalaV, "2.12.12"),
+  crossScalaVersions := Seq(scalaV, "2.12.13"),
   addCompilerPlugin("org.typelevel" %% "kind-projector"     % kindProjectorV cross CrossVersion.full),
   addCompilerPlugin("com.olegpy"    %% "better-monadic-for" % betterMonadicForV),
   libraryDependencies ++= Seq(
-    "org.typelevel"     %% "cats-core"         % catsV,
-    "org.typelevel"     %% "cats-effect"       % catsEffectV,
-    "co.fs2"            %% "fs2-core"          % fs2V,
-    "co.fs2"            %% "fs2-io"            % fs2V,
-    "io.chrisdavenport" %% "log4cats-core"     % log4catsV,
-    "io.chrisdavenport" %% "log4cats-slf4j"    % log4catsV,
-    "io.chrisdavenport" %% "log4cats-testing"  % log4catsV        % Test,
-    "org.scalameta"     %% "munit"             % munitV           % Test,
-    "org.typelevel"     %% "munit-cats-effect" % munitCatsEffectV % Test
+    "org.typelevel" %% "cats-core"         % catsV,
+    "org.typelevel" %% "cats-effect"       % catsEffectV,
+    "co.fs2"        %% "fs2-core"          % fs2V,
+    "co.fs2"        %% "fs2-io"            % fs2V,
+    "org.typelevel" %% "log4cats-core"     % log4catsV,
+    "org.typelevel" %% "log4cats-slf4j"    % log4catsV,
+    "org.typelevel" %% "log4cats-testing"  % log4catsV        % Test,
+    "org.scalameta" %% "munit"             % munitV           % Test,
+    "org.typelevel" %% "munit-cats-effect" % munitCatsEffectV % Test
   )
 )
 

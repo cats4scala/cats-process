@@ -2,7 +2,7 @@ package c4s.process
 
 import cats.syntax.all._
 import cats.effect._
-import io.chrisdavenport.log4cats.Logger
+import org.typelevel.log4cats.Logger
 import c4s.process.syntax._
 import java.nio.file.Path
 import fs2.{text, Stream}

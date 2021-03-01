@@ -1,8 +1,8 @@
 package c4s.process
 
 import cats.effect._
-import io.chrisdavenport.log4cats.testing.TestingLogger
-import io.chrisdavenport.log4cats.testing.TestingLogger._
+import org.typelevel.log4cats.testing.TestingLogger
+import org.typelevel.log4cats.testing.TestingLogger._
 import munit.CatsEffectSuite
 
 class LoggerProcessSpec extends CatsEffectSuite {
