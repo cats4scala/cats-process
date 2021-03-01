@@ -1,8 +1,10 @@
 package c4s.process
 
+import java.nio.file._
+import java.util.Comparator
+
 import cats.effect._
 import cats.syntax.all._
-import java.nio.file._
 import munit.CatsEffectSuite
 
 class ProcessSpec extends CatsEffectSuite {
@@ -91,7 +93,9 @@ class ProcessSpec extends CatsEffectSuite {
 
   def createTmpDirectory[F[_]: Sync]: Resource[F, Path] =
     Resource.make(Sync[F].delay(Files.createTempDirectory("tmp")))(path =>
-      Sync[F].delay(scala.reflect.io.Directory(path.toFile()).deleteRecursively()).void
+      Sync[F].delay {
+        Files.walk(path).sorted(Comparator.reverseOrder()).map(_.toFile).map(_.delete())
+      }.void
     )
 
 }
