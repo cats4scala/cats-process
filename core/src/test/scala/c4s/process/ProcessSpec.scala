@@ -6,6 +6,7 @@ import java.util.Comparator
 import cats.effect._
 import cats.syntax.all._
 import munit.CatsEffectSuite
+import java.io.File
 
 class ProcessSpec extends CatsEffectSuite {
   import c4s.process.syntax._
@@ -94,7 +95,7 @@ class ProcessSpec extends CatsEffectSuite {
   def createTmpDirectory[F[_]: Sync]: Resource[F, Path] =
     Resource.make(Sync[F].delay(Files.createTempDirectory("tmp")))(path =>
       Sync[F].delay {
-        Files.walk(path).sorted(Comparator.reverseOrder()).map(_.toFile).map(_.delete())
+        Files.walk(path).sorted(Comparator.reverseOrder()).map[File](_.toFile).map[Boolean](_.delete())
       }.void
     )
 
