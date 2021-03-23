@@ -1,6 +1,6 @@
 addSbtPlugin("org.scalameta"             % "sbt-scalafmt"               % "2.4.2")
 addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat"               % "0.1.17")
-addSbtPlugin("com.geirsson"              % "sbt-ci-release"             % "1.5.6")
+addSbtPlugin("com.geirsson"              % "sbt-ci-release"             % "1.5.7")
 addSbtPlugin("io.chrisdavenport"         % "sbt-mima-version-check"     % "0.1.2")
 addSbtPlugin("io.chrisdavenport"         % "sbt-no-publish"             % "0.1.0")
 addSbtPlugin("org.scalameta"             % "sbt-mdoc"                   % "2.2.18")
