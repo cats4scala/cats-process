@@ -1,7 +1,7 @@
 val scalaV = "2.13.5"
 
 val catsV = "2.5.0"
-val catsEffectV = "2.4.1"
+val catsEffectV = "3.0.1"
 val fs2V = "2.5.4"
 val munitV = "0.7.23"
 val munitCatsEffectV = "0.3.0"
