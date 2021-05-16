@@ -1,13 +1,13 @@
 val scalaV = "2.13.5"
 
-val catsV = "2.5.0"
-val catsEffectV = "3.1.1"
+val catsV = "2.6.1"
+val catsEffectV = "2.5.1"
 val fs2V = "2.5.6"
 val munitV = "0.7.26"
 val munitCatsEffectV = "0.3.0"
 val log4catsV = "1.3.0"
 
-val kindProjectorV = "0.12.0"
+val kindProjectorV = "0.13.0"
 val betterMonadicForV = "0.3.1"
 
 // Projects
